@@ -45,13 +45,14 @@ export default {
 		const block_domains = await env.email.get('block_domains')
 		const blockDomains: string[] = JSON.parse(block_domains)
 		if (blockDomains !== null && blockDomains.length > 0) {
-			blockDomains.forEach(item => {
+			for (let i = 0; i < blockDomains.length; i++) {
+				const item = blockDomains[i]
 				if (message.from.includes(item)) {
 					console.error('Domain is blocked')
 					message.setReject('Domain is blocked')
-					return false
+					return
 				}
-			})
+			}
 		}
 
 		await message.forward(forward)
